@@ -11,14 +11,24 @@ import javafx.fxml.FXMLLoader;
 
 
 public class Main extends Application {
+	
+	public Stage pStage;
+	
 	@Override
 	public void start(Stage primaryStage) {
+		
+		pStage = primaryStage;
+		pStage.setTitle("Finanças Pessoais");
+		
 		try {
-			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("/form/Login.fxml"));
-			Scene scene = new Scene(root,400,400);
-			scene.getStylesheets().add(getClass().getResource("/css/application.css").toExternalForm());
-			primaryStage.setScene(scene);
-			primaryStage.show();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/form/Login.fxml"));
+			
+			BorderPane loginForm = (BorderPane) loader.load();
+			Scene scene = new Scene(loginForm);
+			
+			pStage.setScene(scene);
+			pStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

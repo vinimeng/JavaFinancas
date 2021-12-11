@@ -3,9 +3,9 @@ module Financas {
 	requires javafx.fxml;
 	requires jakarta.persistence;
 	requires java.sql;
+	requires javafx.graphics;
 	
 	opens application;
 	opens entity;
 	opens form;
-	//opens css to javafx.graphics, javafx.fxml;
 }
