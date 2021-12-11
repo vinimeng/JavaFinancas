@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
+
+	<persistence-unit name="Financas" transaction-type="RESOURCE_LOCAL">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+
+		<class>entity.Categoria</class>
+		<class>entity.Log</class>
+		<class>entity.Movimentacao</class>
+		<class>entity.Tipos_movimentacao</class>
+		<class>entity.Usuario</class>
+
+		<properties>	
+			<property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
+			<property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/testjpa" />
+			<property name="jakarta.persistence.jdbc.user" value="javauser" />
+			<property name="jakarta.persistence.jdbc.password" value="p0Ymjwt8bJGQCzqI" />
+			
+			<property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
+			<property name="eclipselink.ddl-generation.output-mode" value="database" />
+
+			<property name="eclipselink.logging.level.sql" value="FINE"/>
+ 			<property name="eclipselink.logging.parameters" value="true"/>
+		</properties>
+	</persistence-unit>
+
+</persistence>
