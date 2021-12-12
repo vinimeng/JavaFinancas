@@ -13,7 +13,7 @@ public class Tipos_movimentacao {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	private String descricao;
 
 	public String getDescricao() {

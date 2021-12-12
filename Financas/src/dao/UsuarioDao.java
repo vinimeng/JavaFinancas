@@ -2,6 +2,7 @@ package dao;
 
 import java.util.List;
 import java.util.Optional;
+
 import entity.Usuario;
 
 public class UsuarioDao implements Dao<Usuario> {
@@ -21,19 +22,19 @@ public class UsuarioDao implements Dao<Usuario> {
 	@Override
 	public void save(Usuario t) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void update(Usuario t) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void delete(Usuario t) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

@@ -2,6 +2,7 @@ package dao;
 
 import java.util.List;
 import java.util.Optional;
+
 import entity.Log;
 
 public class LogDao implements Dao<Log> {
@@ -21,19 +22,19 @@ public class LogDao implements Dao<Log> {
 	@Override
 	public void save(Log t) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void update(Log t) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void delete(Log t) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
