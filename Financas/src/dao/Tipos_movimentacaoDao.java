@@ -1,14 +1,13 @@
 package dao;
 
 import java.util.List;
-import java.util.Optional;
 
 import entity.Tipos_movimentacao;
 
 public class Tipos_movimentacaoDao implements Dao<Tipos_movimentacao> {
 
 	@Override
-	public Optional<Tipos_movimentacao> get(int id) {
+	public Tipos_movimentacao get(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -7,10 +7,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "movimentacao")
+@NamedQuery(name = "Movimentacao.findAll", query = "SELECT t FROM Movimentacao t WHERE t.deletado = 0")
+@NamedQuery(name = "Movimentacao.findByMonth", query = "SELECT t FROM Movimentacao t WHERE t.deletado = 0 AND t.id_usuario = :usuario AND t.data > :datainicial AND t.data < :datafinal")
+@NamedQuery(name = "Movimentacao.findYears", query = "SELECT EXTRACT(YEAR t.data) as ANO FROM Movimentacao t WHERE t.deletado = 0 AND t.id_usuario = :usuario GROUP BY ANO")
 public class Movimentacao {
 
 	@Id

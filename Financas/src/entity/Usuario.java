@@ -4,10 +4,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "usuario")
+@NamedQuery(name = "Usuario.findUsuario", query = "SELECT t FROM Usuario t WHERE t.usuario = :usuario")
 public class Usuario {
 
 	@Id
@@ -17,7 +19,6 @@ public class Usuario {
 	private String usuario;
 	private String senha;
 	private String nome;
-	private boolean logado;
 	private String primeira_resposta;
 	private String segunda_resposta;
 
@@ -43,14 +44,6 @@ public class Usuario {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public boolean isLogado() {
-		return logado;
-	}
-
-	public void setLogado(boolean logado) {
-		this.logado = logado;
 	}
 
 	public String getPrimeira_resposta() {

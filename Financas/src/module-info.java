@@ -4,6 +4,7 @@ module Financas {
 	requires jakarta.persistence;
 	requires transitive java.sql;
 	requires transitive javafx.graphics;
+	requires javafx.base;
 
 	opens application;
 	opens entity;
