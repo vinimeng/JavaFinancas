@@ -51,6 +51,10 @@ public enum Mes {
 		}
 	}
 	
+	public int getMes() {
+		return this.mes;
+	}
+	
 	@Override
 	public String toString() {
 		switch (mes) {

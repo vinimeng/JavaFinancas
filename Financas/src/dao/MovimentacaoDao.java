@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import entity.Movimentacao;
+import entity.Usuario;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -43,12 +44,12 @@ private static final String PERSISTENCE_UNIT = "Financas";
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Movimentacao> getByMonth(int idUsuario, Timestamp dataInicial, Timestamp dataFinal) {
+	public List<Movimentacao> getByMonth(Usuario usuarioLogado, Timestamp dataInicial, Timestamp dataFinal) {
 		var entityManager = getEntityManager();
 		
 		try {
 			return entityManager.createNamedQuery("Movimentacao.findByMonth")
-					.setParameter("usuario", idUsuario)
+					.setParameter("usuario", usuarioLogado)
 					.setParameter("datainicial", dataInicial)
 					.setParameter("datafinal", dataFinal)
 					.getResultList();
@@ -61,7 +62,7 @@ private static final String PERSISTENCE_UNIT = "Financas";
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Integer> getYears(int idUsuario) {
+	public List<Integer> getYears(Usuario idUsuario) {
 		var entityManager = getEntityManager();
 		
 		try {
