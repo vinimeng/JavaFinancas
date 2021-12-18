@@ -15,11 +15,11 @@ public enum Mes {
 	DEZEMBRO(12);
 
 	private final int mes;
-	
+
 	Mes(int mes) {
 		this.mes = mes;
 	}
-	
+
 	public static Mes getMes(int mes) {
 		switch (mes) {
 			case 1:
@@ -50,11 +50,11 @@ public enum Mes {
 				return null;
 		}
 	}
-	
+
 	public int getMes() {
 		return this.mes;
 	}
-	
+
 	@Override
 	public String toString() {
 		switch (mes) {

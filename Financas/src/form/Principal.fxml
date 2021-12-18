@@ -35,12 +35,12 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="15.0" layoutY="415.0" text="ÚLTIMA MOVIMENTAÇÃO">
+            <Label layoutX="15.0" layoutY="440.0" text="ÚLTIMA MOVIMENTAÇÃO">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <TableView fx:id="movimentacoes" layoutX="15.0" layoutY="105.0" prefHeight="250.0" prefWidth="770.0">
+            <TableView fx:id="movimentacoes" layoutX="15.0" layoutY="110.0" prefHeight="270.0" prefWidth="770.0">
               <columns>
                 <TableColumn fx:id="dataColuna" prefWidth="75.0" text="DATA" />
                 <TableColumn fx:id="categoriaColuna" prefWidth="75.0" text="CATEGORIA" />
@@ -53,7 +53,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <TableView fx:id="ultimaMovimentacao" layoutX="15.0" layoutY="440.0" prefHeight="75.0" prefWidth="770.0">
+            <TableView fx:id="ultimaMovimentacao" layoutX="15.0" layoutY="470.0" prefHeight="50.0" prefWidth="770.0">
                <columns>
                   <TableColumn fx:id="dataColunaUltimaMovimentacao" prefWidth="75.0" text="DATA" />
                   <TableColumn fx:id="categoriaColunaUltimaMovimentacao" prefWidth="75.0" text="CATEGORIA" />
@@ -66,19 +66,19 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Label layoutX="15.0" layoutY="545.0" text="SALDO ATUAL (R$):">
+            <Label layoutX="15.0" layoutY="545.0" text="SALDO ATUAL:">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="50.0" layoutX="185.0" layoutY="534.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-            <Label layoutX="389.0" layoutY="545.0" text="SALDO PREVISTO (R$):">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="50.0" layoutX="170.0" layoutY="534.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+            <Label layoutX="404.0" layoutY="545.0" text="SALDO PREVISTO:">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="50.0" layoutX="585.0" layoutY="534.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-            <Label fx:id="saldoAtual" layoutX="191.0" layoutY="546.0" text="Label">
+            <Label fx:id="saldoAtual" layoutX="177.0" layoutY="546.0" text="Label">
                <font>
                   <Font size="16.0" />
                </font>
@@ -88,14 +88,14 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <Button fx:id="criarMovimentacaoBtn" layoutX="651.0" layoutY="15.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="134.0" text="CRIAR MOVIMENTAÇÃO" textAlignment="CENTER" wrapText="true" />
-            <Label layoutX="162.0" layoutY="376.0" text="SALDO MÊS SELECIONADO (R$):">
+            <Button fx:id="criarMovimentacaoBtn" layoutX="651.0" layoutY="15.0" mnemonicParsing="false" onAction="#criarMovimentacaoBtnActionPerformed" prefHeight="60.0" prefWidth="134.0" text="CRIAR MOVIMENTAÇÃO" textAlignment="CENTER" wrapText="true" />
+            <Label layoutX="15.0" layoutY="396.0" text="SALDO MÊS ATUAL:">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="50.0" layoutX="438.0" layoutY="365.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-            <Label fx:id="saldoMesSelecionado" layoutX="444.0" layoutY="377.0" text="Label">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="50.0" layoutX="186.0" layoutY="384.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+            <Label fx:id="saldoMesSelecionado" layoutX="193.0" layoutY="397.0" text="Label">
                <font>
                   <Font size="16.0" />
                </font>
@@ -111,6 +111,17 @@
                   <Font size="24.0" />
                </font>
             </Button>
+            <Label layoutX="388.0" layoutY="396.0" text="SALDO MÊS PREVISTO:">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="50.0" layoutX="585.0" layoutY="385.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+            <Label fx:id="saldoMesPrevistoSelecionado" layoutX="592.0" layoutY="397.0" text="Label">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>

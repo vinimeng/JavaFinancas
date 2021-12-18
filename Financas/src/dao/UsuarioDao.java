@@ -8,9 +8,9 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 public class UsuarioDao implements Dao<Usuario> {
-	
+
 	private static final String PERSISTENCE_UNIT = "Financas";
-	
+
 	public static String getPersistenceUnit() {
 		return PERSISTENCE_UNIT;
 	}
@@ -20,19 +20,19 @@ public class UsuarioDao implements Dao<Usuario> {
 
 		return factory.createEntityManager();
 	}
-	
+
 	@Override
 	public Usuario get(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	public Usuario get(String usuario) {
 		var entityManager = getEntityManager();
-		
+
 		try {
 			Usuario user = (Usuario) entityManager.createNamedQuery("Usuario.findUsuario").setParameter("usuario", usuario).getSingleResult();
-			
+
 			return user;
 		} catch (Exception e) {
 			return null;

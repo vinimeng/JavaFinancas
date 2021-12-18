@@ -20,54 +20,54 @@ public class LoginController {
 
 	@FXML
     private TextField usuario;
-	
+
 	@FXML
     private PasswordField senha;
-	
+
 	@FXML
     private Button cadastrarseBtn;
-	
+
 	@FXML
     private Button loginBtn;
-	
+
 	private Stage stage;
-	
+
 	@FXML
 	private void loginBtnActionPerformed(ActionEvent event) {
 		String usuario = this.usuario.getText();
 		String senha = this.senha.getText();
-		
+
 		UsuarioDao ud = new UsuarioDao();
-		
+
 		Usuario user  = ud.get(usuario);
-		
+
 		if (user != null) {
 			if (BCrypt.checkpw(senha, user.getSenha())) {
 				Stage principalForm = new Stage();
 				principalForm.setTitle("FINANÇAS PESSOAIS - TELA PRINCIPAL");
-				
+
 				FXMLLoader loader = new FXMLLoader();
 				loader.setLocation(getClass().getResource("/form/Principal.fxml"));
-				
+
 				try {
 					AnchorPane ap = loader.load();
 					Scene scene = new Scene(ap);
-					
+
 					principalForm.setScene(scene);
 					principalForm.getIcons().add(stage.getIcons().get(0));
 					principalForm.setResizable(false);
-					
+
 					PrincipalController pc = loader.getController();
 					pc.setStage(principalForm);
 					pc.initialize(user);
-					
+
 					principalForm.show();
-					stage.close();					
+					stage.close();
 				} catch(Exception e) {
 					e.printStackTrace();
 				}
 			} else {
-				Dialog <String> d = new Dialog<String>();
+				Dialog <String> d = new Dialog<>();
 				ButtonType type = new ButtonType("OK", ButtonData.OK_DONE);
 				d.setTitle("SENHA INCORRETA");
 				Stage s = (Stage) d.getDialogPane().getScene().getWindow();
@@ -78,7 +78,7 @@ public class LoginController {
 				d.showAndWait();
 			}
 		} else {
-			Dialog <String> d = new Dialog<String>();
+			Dialog <String> d = new Dialog<>();
 			ButtonType type = new ButtonType("OK", ButtonData.OK_DONE);
 			d.setTitle("USUÁRIO INEXISTENTE");
 			Stage s = (Stage) d.getDialogPane().getScene().getWindow();
@@ -89,8 +89,8 @@ public class LoginController {
 			d.showAndWait();
 		}
 	}
-	
+
 	public void setLoginStage(Stage stage) {
-		this.stage = stage;	
+		this.stage = stage;
 	}
 }

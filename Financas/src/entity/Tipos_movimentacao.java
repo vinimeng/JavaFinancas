@@ -1,14 +1,20 @@
 package entity;
 
+import java.util.Locale;
+
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tipos_movimentacao")
+@Cacheable(false)
+@NamedQuery(name = "Tipos_movimentacao.findAll", query = "SELECT t FROM Tipos_movimentacao t ORDER BY t.descricao")
 public class Tipos_movimentacao {
 
 	@Id
@@ -30,10 +36,10 @@ public class Tipos_movimentacao {
 	public int getId() {
 		return id;
 	}
-	
+
 	@Override
 	public String toString() {
-		return descricao;
+		return descricao.toUpperCase(new Locale("pt", "BR"));
 	}
 
 	public int getModificador() {

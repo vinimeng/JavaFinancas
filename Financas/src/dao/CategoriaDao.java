@@ -3,8 +3,23 @@ package dao;
 import java.util.List;
 
 import entity.Categoria;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
 public class CategoriaDao implements Dao<Categoria> {
+
+	private static final String PERSISTENCE_UNIT = "Financas";
+
+	public static String getPersistenceUnit() {
+		return PERSISTENCE_UNIT;
+	}
+
+	private EntityManager getEntityManager() {
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory(getPersistenceUnit());
+
+		return factory.createEntityManager();
+	}
 
 	@Override
 	public Categoria get(int id) {
@@ -12,10 +27,18 @@ public class CategoriaDao implements Dao<Categoria> {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Categoria> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		var entityManager = getEntityManager();
+
+		try {
+			return entityManager.createNamedQuery("Categoria.findAll").getResultList();
+		} catch (Exception e) {
+			return null;
+		} finally {
+			entityManager.close();
+		}
 	}
 
 	@Override

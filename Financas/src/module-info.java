@@ -9,8 +9,10 @@ module Financas {
 	opens application;
 	opens entity;
 	opens form;
+	opens util;
 
 	exports application;
 	exports entity;
 	exports form;
+	exports util;
 }

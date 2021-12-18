@@ -32,10 +32,10 @@ public class Main extends Application {
 			pStage.setScene(scene);
 			pStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/assets/logo.png")));
 			pStage.setResizable(false);
-			
+
 			LoginController lc = loader.getController();
 			lc.setLoginStage(pStage);
-			
+
 			pStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
