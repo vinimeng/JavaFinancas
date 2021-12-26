@@ -5,6 +5,7 @@ module Financas {
 	requires transitive java.sql;
 	requires transitive javafx.graphics;
 	requires javafx.base;
+	requires jfxtras.controls;
 
 	opens application;
 	opens entity;
