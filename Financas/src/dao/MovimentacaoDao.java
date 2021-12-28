@@ -160,20 +160,62 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 
 	@Override
 	public void save(Movimentacao t) {
-		// TODO Auto-generated method stub
+		var em = getEntityManager();
 
+		try {
+			em.getTransaction().begin();
+
+			em.persist(t);
+
+			em.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			em.getTransaction().rollback();
+		} finally {
+			em.close();
+		}
 	}
 
 	@Override
 	public void update(Movimentacao t) {
-		// TODO Auto-generated method stub
+		var em = getEntityManager();
 
+		try {
+			em.getTransaction().begin();
+
+			em.merge(t);
+
+			em.getTransaction().commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			em.getTransaction().rollback();
+		} finally {
+			em.close();
+		}
 	}
 
 	@Override
 	public void delete(Movimentacao t) {
-		// TODO Auto-generated method stub
+		var em = getEntityManager();
 
+		try {
+			em.getTransaction().begin();
+			
+			if (!em.contains(t)) {
+			    t = em.merge(t);
+			}
+
+			em.remove(t);
+
+			em.getTransaction().commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			em.getTransaction().rollback();
+		} finally {
+			em.close();
+		}
 	}
 
 }

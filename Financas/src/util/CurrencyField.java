@@ -103,6 +103,6 @@ public class CurrencyField extends TextField {
         StringBuilder builder = new StringBuilder(getText());
         builder.delete(start, end);
         formatText(builder.toString());
-        selectRange(start, end);
+        selectRange(end, end);
     }
 }

@@ -20,11 +20,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -48,6 +51,9 @@ public class PrincipalController {
 
 	@FXML
 	private Button criarMovimentacaoBtn;
+	
+	@FXML
+	private Button excluirMovimentacaoBtn;
 
 	@FXML
 	private TableView<Movimentacao> movimentacoes;
@@ -401,8 +407,45 @@ public class PrincipalController {
 			movimentacaoForm.initModality(Modality.WINDOW_MODAL);
 			movimentacaoForm.initOwner(stage);
 			movimentacaoForm.showAndWait();
+			
+			EventHandler<ActionEvent> filter = e -> e.consume();
+			ano.addEventFilter(ActionEvent.ACTION, filter);
+			fillData(true, false);
+			ano.removeEventFilter(ActionEvent.ACTION, filter);
 		} catch(Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	private void excluirMovimentacaoBtnActionPerformed(ActionEvent event) {
+		Movimentacao movimentacaoSelecionada = movimentacoes.getSelectionModel().getSelectedItem();
+		
+		if (movimentacaoSelecionada != null) {
+			Dialog <ButtonType> d = new Dialog<>();
+			ButtonType type = new ButtonType("SIM", ButtonData.YES);
+			ButtonType type2 = new ButtonType("NÃO", ButtonData.NO);
+			d.setTitle("EXCLUSÃO");
+			Stage s = (Stage) d.getDialogPane().getScene().getWindow();
+			s.getIcons().add(stage.getIcons().get(0));
+			d.setContentText("DESEJA MESMO EXCLUIR ESSA MOVIMENTAÇÃO?");
+			d.getDialogPane().getButtonTypes().add(type);
+			d.getDialogPane().getButtonTypes().add(type2);
+			d.initOwner(stage);
+			d.showAndWait().ifPresent(response -> {
+				if (response == type) {
+					MovimentacaoDao md = new MovimentacaoDao();
+					
+					movimentacaoSelecionada.setDeletado(true);
+					
+					md.update(movimentacaoSelecionada);
+					
+					EventHandler<ActionEvent> filter = e -> e.consume();
+					ano.addEventFilter(ActionEvent.ACTION, filter);
+					fillData(true, false);
+					ano.removeEventFilter(ActionEvent.ACTION, filter);
+				}
+			});
 		}
 	}
 
