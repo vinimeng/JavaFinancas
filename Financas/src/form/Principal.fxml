@@ -152,7 +152,7 @@
                   </Tooltip>
                </tooltip>
             </Button>
-            <Button fx:id="refreshBtn1" layoutX="511.0" layoutY="15.0" mnemonicParsing="false" onAction="#refreshBtnActionPerformed" prefHeight="60.0" prefWidth="65.0" text="TROCAR SENHA" textAlignment="CENTER" wrapText="true" />
+            <Button fx:id="trocarSenhaBtn" layoutX="511.0" layoutY="15.0" mnemonicParsing="false" onAction="#trocarSenhaBtnActionPerformed" prefHeight="60.0" prefWidth="65.0" text="TROCAR SENHA" textAlignment="CENTER" wrapText="true" />
          </children>
       </Pane>
    </children>

@@ -11,7 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-
 public class Main extends Application {
 
 	public Stage pStage;
@@ -37,7 +36,7 @@ public class Main extends Application {
 			lc.setStage(pStage);
 
 			pStage.show();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

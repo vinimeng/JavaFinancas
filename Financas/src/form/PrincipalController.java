@@ -20,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
@@ -27,7 +28,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -47,11 +47,14 @@ public class PrincipalController {
 	private ComboBox<Mes> mes;
 
 	@FXML
+	private Button trocarSenhaBtn;
+
+	@FXML
 	private Button refreshBtn;
 
 	@FXML
 	private Button criarMovimentacaoBtn;
-	
+
 	@FXML
 	private Button excluirMovimentacaoBtn;
 
@@ -136,118 +139,130 @@ public class PrincipalController {
 		mes.setValue(Mes.getMes(lt.getMonthValue()));
 
 		// MOVIMENTAÇÕES
-		dataColuna.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Movimentacao, String>, ObservableValue<String>>() {
-			@Override
-			public ObservableValue<String> call(CellDataFeatures<Movimentacao, String> param) {
-				if (param.getValue() != null) {
-		            return new SimpleStringProperty(param.getValue().getData().toLocalDateTime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
-		        } else {
-		            return new SimpleStringProperty("-");
-		        }
-			}
-		});
+		dataColuna.setCellValueFactory(
+				new Callback<TableColumn.CellDataFeatures<Movimentacao, String>, ObservableValue<String>>() {
+					@Override
+					public ObservableValue<String> call(CellDataFeatures<Movimentacao, String> param) {
+						if (param.getValue() != null) {
+							return new SimpleStringProperty(param.getValue().getData().toLocalDateTime()
+									.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
+						} else {
+							return new SimpleStringProperty("-");
+						}
+					}
+				});
 		dataColuna.setStyle("-fx-alignment: CENTER");
 
 		categoriaColuna.setCellValueFactory(new PropertyValueFactory<Movimentacao, String>("categoria"));
 		categoriaColuna.setStyle("-fx-alignment: CENTER");
 
-		valorColuna.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Movimentacao, String>, ObservableValue<String>>() {
-			@Override
-			public ObservableValue<String> call(CellDataFeatures<Movimentacao, String> param) {
-				if (param.getValue() != null) {
-					NumberFormat dinheiro = NumberFormat.getCurrencyInstance();
-					dinheiro.setMinimumFractionDigits(2);
-					dinheiro.setMaximumFractionDigits(2);
+		valorColuna.setCellValueFactory(
+				new Callback<TableColumn.CellDataFeatures<Movimentacao, String>, ObservableValue<String>>() {
+					@Override
+					public ObservableValue<String> call(CellDataFeatures<Movimentacao, String> param) {
+						if (param.getValue() != null) {
+							NumberFormat dinheiro = NumberFormat.getCurrencyInstance();
+							dinheiro.setMinimumFractionDigits(2);
+							dinheiro.setMaximumFractionDigits(2);
 
-					int receitaDespesa = param.getValue().getTipo().getModificador();
+							int receitaDespesa = param.getValue().getTipo().getModificador();
 
-		            return new SimpleStringProperty(dinheiro.format(receitaDespesa * param.getValue().getValor().doubleValue()));
-		        } else {
-		            return new SimpleStringProperty("-");
-		        }
-			}
-		});
+							return new SimpleStringProperty(
+									dinheiro.format(receitaDespesa * param.getValue().getValor().doubleValue()));
+						} else {
+							return new SimpleStringProperty("-");
+						}
+					}
+				});
 		valorColuna.setStyle("-fx-alignment: CENTER-RIGHT");
 
 		tipoColuna.setCellValueFactory(new PropertyValueFactory<Movimentacao, String>("tipo"));
 		tipoColuna.setStyle("-fx-alignment: CENTER");
 
-		pagoColuna.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Movimentacao, String>, ObservableValue<String>>() {
-			@Override
-			public ObservableValue<String> call(CellDataFeatures<Movimentacao, String> param) {
-				if (param.getValue() != null) {
-					String pagoNaoPago = "EM ABERTO";
+		pagoColuna.setCellValueFactory(
+				new Callback<TableColumn.CellDataFeatures<Movimentacao, String>, ObservableValue<String>>() {
+					@Override
+					public ObservableValue<String> call(CellDataFeatures<Movimentacao, String> param) {
+						if (param.getValue() != null) {
+							String pagoNaoPago = "EM ABERTO";
 
-					if (param.getValue().isPago()) {
-						pagoNaoPago = "CONFIRMADO";
+							if (param.getValue().isPago()) {
+								pagoNaoPago = "CONFIRMADO";
+							}
+
+							return new SimpleStringProperty(pagoNaoPago);
+						} else {
+							return new SimpleStringProperty("-");
+						}
 					}
-
-		            return new SimpleStringProperty(pagoNaoPago);
-		        } else {
-		            return new SimpleStringProperty("-");
-		        }
-			}
-		});
+				});
 		pagoColuna.setStyle("-fx-alignment: CENTER");
 
 		descricaoColuna.setCellValueFactory(new PropertyValueFactory<Movimentacao, String>("descricao"));
 
 		// ÚLTIMA MOVIMENTAÇÃO
-		dataColunaUltimaMovimentacao.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Movimentacao, String>, ObservableValue<String>>() {
-			@Override
-			public ObservableValue<String> call(CellDataFeatures<Movimentacao, String> param) {
-				if (param.getValue() != null) {
-		            return new SimpleStringProperty(param.getValue().getData().toLocalDateTime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
-		        } else {
-		            return new SimpleStringProperty("-");
-		        }
-			}
-		});
+		dataColunaUltimaMovimentacao.setCellValueFactory(
+				new Callback<TableColumn.CellDataFeatures<Movimentacao, String>, ObservableValue<String>>() {
+					@Override
+					public ObservableValue<String> call(CellDataFeatures<Movimentacao, String> param) {
+						if (param.getValue() != null) {
+							return new SimpleStringProperty(param.getValue().getData().toLocalDateTime()
+									.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
+						} else {
+							return new SimpleStringProperty("-");
+						}
+					}
+				});
 		dataColunaUltimaMovimentacao.setStyle("-fx-alignment: CENTER");
 
-		categoriaColunaUltimaMovimentacao.setCellValueFactory(new PropertyValueFactory<Movimentacao, String>("categoria"));
+		categoriaColunaUltimaMovimentacao
+				.setCellValueFactory(new PropertyValueFactory<Movimentacao, String>("categoria"));
 		categoriaColunaUltimaMovimentacao.setStyle("-fx-alignment: CENTER");
 
-		valorColunaUltimaMovimentacao.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Movimentacao, String>, ObservableValue<String>>() {
-			@Override
-			public ObservableValue<String> call(CellDataFeatures<Movimentacao, String> param) {
-				if (param.getValue() != null) {
-					NumberFormat dinheiro = NumberFormat.getCurrencyInstance();
-					dinheiro.setMinimumFractionDigits(2);
-					dinheiro.setMaximumFractionDigits(2);
+		valorColunaUltimaMovimentacao.setCellValueFactory(
+				new Callback<TableColumn.CellDataFeatures<Movimentacao, String>, ObservableValue<String>>() {
+					@Override
+					public ObservableValue<String> call(CellDataFeatures<Movimentacao, String> param) {
+						if (param.getValue() != null) {
+							NumberFormat dinheiro = NumberFormat.getCurrencyInstance();
+							dinheiro.setMinimumFractionDigits(2);
+							dinheiro.setMaximumFractionDigits(2);
 
-					int receitaDespesa = param.getValue().getTipo().getModificador();
+							int receitaDespesa = param.getValue().getTipo().getModificador();
 
-		            return new SimpleStringProperty(dinheiro.format(receitaDespesa * param.getValue().getValor().doubleValue()));
-		        } else {
-		            return new SimpleStringProperty("-");
-		        }
-			}
-		});
+							return new SimpleStringProperty(
+									dinheiro.format(receitaDespesa * param.getValue().getValor().doubleValue()));
+						} else {
+							return new SimpleStringProperty("-");
+						}
+					}
+				});
 		valorColunaUltimaMovimentacao.setStyle("-fx-alignment: CENTER-RIGHT");
 
 		tipoColunaUltimaMovimentacao.setCellValueFactory(new PropertyValueFactory<Movimentacao, String>("tipo"));
 		tipoColunaUltimaMovimentacao.setStyle("-fx-alignment: CENTER");
 
-		pagoColunaUltimaMovimentacao.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Movimentacao, String>, ObservableValue<String>>() {
-			@Override
-			public ObservableValue<String> call(CellDataFeatures<Movimentacao, String> param) {
-				if (param.getValue() != null) {
-					String pagoNaoPago = "EM ABERTO";
+		pagoColunaUltimaMovimentacao.setCellValueFactory(
+				new Callback<TableColumn.CellDataFeatures<Movimentacao, String>, ObservableValue<String>>() {
+					@Override
+					public ObservableValue<String> call(CellDataFeatures<Movimentacao, String> param) {
+						if (param.getValue() != null) {
+							String pagoNaoPago = "EM ABERTO";
 
-					if (param.getValue().isPago()) {
-						pagoNaoPago = "CONFIRMADO";
+							if (param.getValue().isPago()) {
+								pagoNaoPago = "CONFIRMADO";
+							}
+
+							return new SimpleStringProperty(pagoNaoPago);
+						} else {
+							return new SimpleStringProperty("-");
+						}
 					}
-
-		            return new SimpleStringProperty(pagoNaoPago);
-		        } else {
-		            return new SimpleStringProperty("-");
-		        }
-			}
-		});
+				});
 		pagoColunaUltimaMovimentacao.setStyle("-fx-alignment: CENTER");
 
-		descricaoColunaUltimaMovimentacao.setCellValueFactory(new PropertyValueFactory<Movimentacao, String>("descricao"));
+		descricaoColunaUltimaMovimentacao
+				.setCellValueFactory(new PropertyValueFactory<Movimentacao, String>("descricao"));
 
 		// PREENCHER DADOS
 		fillData(true, true);
@@ -265,9 +280,11 @@ public class PrincipalController {
 			LocalDateTime lt = LocalDateTime.of(ano.getValue(), mes.getValue().getMes(), 1, 0, 0, 0);
 
 			Timestamp dataInicial = Timestamp.valueOf(LocalDateTime.of(lt.getYear(), lt.getMonth(), 1, 0, 0, 0));
-			Timestamp dataFinal = Timestamp.valueOf(LocalDateTime.of(lt.getYear(), lt.getMonth(), lt.getMonth().length(lt.toLocalDate().isLeapYear()), 23, 59, 59));
+			Timestamp dataFinal = Timestamp.valueOf(LocalDateTime.of(lt.getYear(), lt.getMonth(),
+					lt.getMonth().length(lt.toLocalDate().isLeapYear()), 23, 59, 59));
 
-			ObservableList<Movimentacao> olm = FXCollections.observableList(md.getByMonth(this.usuarioLogado, dataInicial, dataFinal));
+			ObservableList<Movimentacao> olm = FXCollections
+					.observableList(md.getByMonth(this.usuarioLogado, dataInicial, dataFinal));
 			movimentacoes.setItems(olm);
 
 			ObservableList<Movimentacao> olmp = FXCollections.observableList(md.getLastPayed(this.usuarioLogado));
@@ -407,22 +424,22 @@ public class PrincipalController {
 			movimentacaoForm.initModality(Modality.WINDOW_MODAL);
 			movimentacaoForm.initOwner(stage);
 			movimentacaoForm.showAndWait();
-			
+
 			EventHandler<ActionEvent> filter = e -> e.consume();
 			ano.addEventFilter(ActionEvent.ACTION, filter);
 			fillData(true, false);
 			ano.removeEventFilter(ActionEvent.ACTION, filter);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@FXML
 	private void excluirMovimentacaoBtnActionPerformed(ActionEvent event) {
 		Movimentacao movimentacaoSelecionada = movimentacoes.getSelectionModel().getSelectedItem();
-		
+
 		if (movimentacaoSelecionada != null) {
-			Dialog <ButtonType> d = new Dialog<>();
+			Dialog<ButtonType> d = new Dialog<>();
 			ButtonType type = new ButtonType("SIM", ButtonData.YES);
 			ButtonType type2 = new ButtonType("NÃO", ButtonData.NO);
 			d.setTitle("EXCLUSÃO");
@@ -435,17 +452,45 @@ public class PrincipalController {
 			d.showAndWait().ifPresent(response -> {
 				if (response == type) {
 					MovimentacaoDao md = new MovimentacaoDao();
-					
+
 					movimentacaoSelecionada.setDeletado(true);
-					
+
 					md.update(movimentacaoSelecionada);
-					
+
 					EventHandler<ActionEvent> filter = e -> e.consume();
 					ano.addEventFilter(ActionEvent.ACTION, filter);
 					fillData(true, false);
 					ano.removeEventFilter(ActionEvent.ACTION, filter);
 				}
 			});
+		}
+	}
+
+	@FXML
+	private void trocarSenhaBtnActionPerformed(ActionEvent event) {
+		Stage trocarSenhaForm = new Stage();
+		trocarSenhaForm.setTitle("TROCAR SENHA");
+
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("/form/TrocarSenha.fxml"));
+
+		try {
+			AnchorPane ap = loader.load();
+			Scene scene = new Scene(ap);
+
+			trocarSenhaForm.setScene(scene);
+			trocarSenhaForm.getIcons().add(stage.getIcons().get(0));
+			trocarSenhaForm.setResizable(false);
+
+			TrocarSenhaController tsc = loader.getController();
+			tsc.setStage(trocarSenhaForm);
+			tsc.initialize(usuarioLogado);
+
+			trocarSenhaForm.initModality(Modality.WINDOW_MODAL);
+			trocarSenhaForm.initOwner(stage);
+			trocarSenhaForm.showAndWait();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

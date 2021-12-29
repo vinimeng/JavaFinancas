@@ -25,11 +25,11 @@
                <font>
                   <Font size="16.0" />
                </font></PasswordField>
-            <Button fx:id="loginBtn" layoutX="186.0" layoutY="215.0" mnemonicParsing="false" onAction="#loginBtnActionPerformed" text="Login">
+            <Button fx:id="loginBtn" layoutX="179.0" layoutY="215.0" mnemonicParsing="false" onAction="#loginBtnActionPerformed" text="LOGIN">
                <font>
                   <Font size="16.0" />
                </font></Button>
-            <Button fx:id="cadastrarseBtn" layoutX="51.0" layoutY="215.0" mnemonicParsing="false" text="Cadastrar-se">
+            <Button fx:id="cadastroBtn" layoutX="51.0" layoutY="215.0" mnemonicParsing="false" onAction="#cadastroBtnActionPerformed" text="CADASTRO">
                <font>
                   <Font size="16.0" />
                </font></Button>
@@ -41,7 +41,7 @@
                <font>
                   <Font size="16.0" />
                </font></Label>
-            <Hyperlink layoutX="46.0" layoutY="173.0" text="Esqueci minha senha">
+            <Hyperlink fx:id="esqueciMinhaSenhaLink" layoutX="47.0" layoutY="173.0" onAction="#esqueciMinhaSenhaLinkActionPerformed" text="ESQUECI MINHA SENHA">
                <font>
                   <Font size="16.0" />
                </font>

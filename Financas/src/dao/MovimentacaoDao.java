@@ -35,10 +35,8 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 
 		try {
 			return (BigDecimal) entityManager.createNamedQuery("Movimentacao.findSaldoMesAtual")
-					.setParameter("usuario", usuarioLogado)
-					.setParameter("datainicial", dataInicial)
-					.setParameter("datafinal", dataFinal)
-					.getSingleResult();
+					.setParameter("usuario", usuarioLogado).setParameter("datainicial", dataInicial)
+					.setParameter("datafinal", dataFinal).getSingleResult();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -52,10 +50,8 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 
 		try {
 			return (BigDecimal) entityManager.createNamedQuery("Movimentacao.findSaldoMesPrevisto")
-					.setParameter("usuario", usuarioLogado)
-					.setParameter("datainicial", dataInicial)
-					.setParameter("datafinal", dataFinal)
-					.getSingleResult();
+					.setParameter("usuario", usuarioLogado).setParameter("datainicial", dataInicial)
+					.setParameter("datafinal", dataFinal).getSingleResult();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -69,8 +65,7 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 
 		try {
 			return (BigDecimal) entityManager.createNamedQuery("Movimentacao.findSaldoAtual")
-					.setParameter("usuario", usuarioLogado)
-					.getSingleResult();
+					.setParameter("usuario", usuarioLogado).getSingleResult();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -84,8 +79,7 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 
 		try {
 			return (BigDecimal) entityManager.createNamedQuery("Movimentacao.findSaldoPrevisto")
-					.setParameter("usuario", usuarioLogado)
-					.getSingleResult();
+					.setParameter("usuario", usuarioLogado).getSingleResult();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -99,10 +93,8 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 		var entityManager = getEntityManager();
 
 		try {
-			return entityManager.createNamedQuery("Movimentacao.findLastPayed")
-					.setParameter("usuario", usuarioLogado)
-					.setMaxResults(1)
-					.getResultList();
+			return entityManager.createNamedQuery("Movimentacao.findLastPayed").setParameter("usuario", usuarioLogado)
+					.setMaxResults(1).getResultList();
 		} catch (Exception e) {
 			return null;
 		} finally {
@@ -129,11 +121,8 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 		var entityManager = getEntityManager();
 
 		try {
-			return entityManager.createNamedQuery("Movimentacao.findByMonth")
-					.setParameter("usuario", usuarioLogado)
-					.setParameter("datainicial", dataInicial)
-					.setParameter("datafinal", dataFinal)
-					.getResultList();
+			return entityManager.createNamedQuery("Movimentacao.findByMonth").setParameter("usuario", usuarioLogado)
+					.setParameter("datainicial", dataInicial).setParameter("datafinal", dataFinal).getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -147,8 +136,7 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 		var entityManager = getEntityManager();
 
 		try {
-			return entityManager.createNamedQuery("Movimentacao.findYears")
-					.setParameter("usuario", idUsuario)
+			return entityManager.createNamedQuery("Movimentacao.findYears").setParameter("usuario", idUsuario)
 					.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -201,9 +189,9 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 
 		try {
 			em.getTransaction().begin();
-			
+
 			if (!em.contains(t)) {
-			    t = em.merge(t);
+				t = em.merge(t);
 			}
 
 			em.remove(t);

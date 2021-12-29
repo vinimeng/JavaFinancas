@@ -37,4 +37,3 @@ public class LogDao implements Dao<Log> {
 	}
 
 }
-

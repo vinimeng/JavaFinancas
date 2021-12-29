@@ -49,7 +49,6 @@ public class MovimentacaoController {
 
 	private Stage stage;
 
-	@SuppressWarnings("unused")
 	private Usuario usuarioLogado;
 
 	public void initialize(Usuario usuarioLogado) {
@@ -60,49 +59,49 @@ public class MovimentacaoController {
 
 		ObservableList<Tipos_movimentacao> olm = FXCollections.observableList(tmd.getAll());
 		tipo.setItems(olm);
-		
+
 		if (!olm.isEmpty()) {
 			tipo.setValue(olm.get(0));
 		}
 
 		ObservableList<Categoria> olmp = FXCollections.observableList(cd.getAll());
 		categoria.setItems(olmp);
-		
+
 		if (!olmp.isEmpty()) {
 			categoria.setValue(olmp.get(0));
 		}
 
 		data.setLocalDateTime(LocalDateTime.now());
-		
+
 		pago.getItems().add("CONFIRMADO");
 		pago.getItems().add("EM ABERTO");
 		pago.setValue("CONFIRMADO");
-		
+
 		valor.initialize(new Locale("pt", "BR"), BigDecimal.ZERO);
 
-		descricao.setTextFormatter(new TextFormatter<String>(change ->
-        change.getControlNewText().length() <= 255 ? change : null));
+		descricao.setTextFormatter(
+				new TextFormatter<String>(change -> change.getControlNewText().length() <= 255 ? change : null));
 	}
-	
+
 	@FXML
 	private void criarMovimentacaoBtnActionPerformed(ActionEvent event) {
 		Movimentacao novaMovimentacao = new Movimentacao();
-		
+
 		novaMovimentacao.setId_usuario(usuarioLogado);
 		novaMovimentacao.setTipo(tipo.getValue());
 		novaMovimentacao.setCategoria(categoria.getValue());
 		novaMovimentacao.setData(Timestamp.valueOf(data.getLocalDateTime()));
-		
+
 		if (pago.getValue().equals("CONFIRMADO")) {
 			novaMovimentacao.setPago(true);
 		} else {
 			novaMovimentacao.setPago(false);
 		}
-		
+
 		novaMovimentacao.setValor(valor.getAmount());
 		novaMovimentacao.setDescricao(descricao.getText());
 		novaMovimentacao.setDeletado(false);
-		
+
 		MovimentacaoDao md = new MovimentacaoDao();
 		md.save(novaMovimentacao);
 		stage.close();

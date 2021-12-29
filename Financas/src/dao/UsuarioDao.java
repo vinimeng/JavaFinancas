@@ -31,7 +31,8 @@ public class UsuarioDao implements Dao<Usuario> {
 		var entityManager = getEntityManager();
 
 		try {
-			Usuario user = (Usuario) entityManager.createNamedQuery("Usuario.findUsuario").setParameter("usuario", usuario).getSingleResult();
+			Usuario user = (Usuario) entityManager.createNamedQuery("Usuario.findUsuario")
+					.setParameter("usuario", usuario).getSingleResult();
 
 			return user;
 		} catch (Exception e) {
@@ -49,20 +50,62 @@ public class UsuarioDao implements Dao<Usuario> {
 
 	@Override
 	public void save(Usuario t) {
-		// TODO Auto-generated method stub
+		var em = getEntityManager();
 
+		try {
+			em.getTransaction().begin();
+
+			em.persist(t);
+
+			em.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			em.getTransaction().rollback();
+		} finally {
+			em.close();
+		}
 	}
 
 	@Override
 	public void update(Usuario t) {
-		// TODO Auto-generated method stub
+		var em = getEntityManager();
 
+		try {
+			em.getTransaction().begin();
+
+			em.merge(t);
+
+			em.getTransaction().commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			em.getTransaction().rollback();
+		} finally {
+			em.close();
+		}
 	}
 
 	@Override
 	public void delete(Usuario t) {
-		// TODO Auto-generated method stub
+		var em = getEntityManager();
 
+		try {
+			em.getTransaction().begin();
+
+			if (!em.contains(t)) {
+				t = em.merge(t);
+			}
+
+			em.remove(t);
+
+			em.getTransaction().commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			em.getTransaction().rollback();
+		} finally {
+			em.close();
+		}
 	}
 
 }
