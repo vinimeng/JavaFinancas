@@ -34,7 +34,7 @@ public class Main extends Application {
 			pStage.setResizable(false);
 
 			LoginController lc = loader.getController();
-			lc.setLoginStage(pStage);
+			lc.setStage(pStage);
 
 			pStage.show();
 		} catch(Exception e) {

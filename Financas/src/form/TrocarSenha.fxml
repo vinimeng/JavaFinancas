@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="form.TrocarSenhaController">
+   <children>
+      <Pane prefHeight="200.0" prefWidth="315.0">
+         <children>
+            <PasswordField fx:id="senhaAtual" layoutX="152.0" layoutY="14.0" />
+            <PasswordField fx:id="novaSenha" layoutX="152.0" layoutY="68.0" />
+            <PasswordField fx:id="repetirNovaSenha" layoutX="152.0" layoutY="108.0" />
+            <Separator layoutX="5.0" layoutY="49.0" prefHeight="9.0" prefWidth="305.0" />
+            <Button fx:id="trocarSenhaBtn" layoutX="182.0" layoutY="156.0" mnemonicParsing="false" onAction="#trocarSenhaBtnActionPerformed" text="TROCAR SENHA">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Label layoutX="14.0" layoutY="14.0" text="SENHA ATUAL:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="68.0" text="NOVA SENHA:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="108.0" text="REPETIR:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

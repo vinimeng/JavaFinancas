@@ -90,7 +90,7 @@ public class LoginController {
 		}
 	}
 
-	public void setLoginStage(Stage stage) {
+	public void setStage(Stage stage) {
 		this.stage = stage;
 	}
 }
