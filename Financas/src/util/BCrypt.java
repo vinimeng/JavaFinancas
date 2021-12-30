@@ -254,7 +254,7 @@ public class BCrypt {
 	/**
 	 * Look up the 3 bits base64-encoded by the specified character, range-checking
 	 * againt conversion table
-	 * 
+	 *
 	 * @param x the base64-encoded value
 	 * @return the decoded value of x
 	 */
@@ -267,7 +267,7 @@ public class BCrypt {
 	/**
 	 * Decode a string encoded using bcrypt's base64 scheme to a byte array. Note
 	 * that this is *not* compatible with the standard MIME-base64 encoding.
-	 * 
+	 *
 	 * @param s       the string to decode
 	 * @param maxolen the maximum number of bytes to decode
 	 * @return an array containing the decoded bytes
@@ -315,7 +315,7 @@ public class BCrypt {
 
 	/**
 	 * Blowfish encipher a single 64-bit block encoded as two 32-bit halves
-	 * 
+	 *
 	 * @param lr  an array containing the two 32-bit half blocks
 	 * @param off the position in the array of the blocks
 	 */
@@ -344,7 +344,7 @@ public class BCrypt {
 
 	/**
 	 * Cycically extract a word of key material
-	 * 
+	 *
 	 * @param data the string to extract the data from
 	 * @param offp a "pointer" (as a one-entry array) to the current offset into
 	 *             data
@@ -374,7 +374,7 @@ public class BCrypt {
 
 	/**
 	 * Key the Blowfish cipher
-	 * 
+	 *
 	 * @param key an array containing the key
 	 */
 	private void key(byte key[]) {
@@ -403,7 +403,7 @@ public class BCrypt {
 	 * Perform the "enhanced key schedule" step described by Provos and Mazieres in
 	 * "A Future-Adaptable Password Scheme"
 	 * http://www.openbsd.org/papers/bcrypt-paper.ps
-	 * 
+	 *
 	 * @param data salt information
 	 * @param key  password information
 	 */
@@ -435,7 +435,7 @@ public class BCrypt {
 
 	/**
 	 * Perform the central password hashing step in the bcrypt scheme
-	 * 
+	 *
 	 * @param password   the password to hash
 	 * @param salt       the binary salt to hash with the password
 	 * @param log_rounds the binary logarithm of the number of rounds of hashing to
@@ -478,7 +478,7 @@ public class BCrypt {
 
 	/**
 	 * Hash a password using the OpenBSD bcrypt scheme
-	 * 
+	 *
 	 * @param password the password to hash
 	 * @param salt     the salt to hash with (perhaps generated using
 	 *                 BCrypt.gensalt)
@@ -538,7 +538,7 @@ public class BCrypt {
 
 	/**
 	 * Generate a salt for use with the BCrypt.hashpw() method
-	 * 
+	 *
 	 * @param log_rounds the log2 of the number of rounds of hashing to apply - the
 	 *                   work factor therefore increases as 2**log_rounds.
 	 * @param random     an instance of SecureRandom to use
@@ -564,7 +564,7 @@ public class BCrypt {
 
 	/**
 	 * Generate a salt for use with the BCrypt.hashpw() method
-	 * 
+	 *
 	 * @param log_rounds the log2 of the number of rounds of hashing to apply - the
 	 *                   work factor therefore increases as 2**log_rounds.
 	 * @return an encoded salt value
@@ -576,7 +576,7 @@ public class BCrypt {
 	/**
 	 * Generate a salt for use with the BCrypt.hashpw() method, selecting a
 	 * reasonable default for the number of hashing rounds to apply
-	 * 
+	 *
 	 * @return an encoded salt value
 	 */
 	public static String gensalt() {
@@ -585,7 +585,7 @@ public class BCrypt {
 
 	/**
 	 * Check that a plaintext password matches a previously hashed one
-	 * 
+	 *
 	 * @param plaintext the plaintext password to verify
 	 * @param hashed    the previously-hashed password
 	 * @return true if the passwords match, false otherwise

@@ -2,18 +2,14 @@ package entity;
 
 import java.util.Locale;
 
-import jakarta.persistence.Cacheable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.NamedQuery;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "categoria")
-@Cacheable(false)
 @NamedQuery(name = "Categoria.findAll", query = "SELECT t FROM Categoria t WHERE t.inativo = 0 ORDER BY t.descricao")
 public class Categoria {
 
@@ -24,6 +20,10 @@ public class Categoria {
 
 	private String descricao;
 	private boolean inativo;
+
+	public int getId() {
+		return id;
+	}
 
 	public String getDescricao() {
 		return descricao;
@@ -39,10 +39,6 @@ public class Categoria {
 
 	public void setInativo(boolean inativo) {
 		this.inativo = inativo;
-	}
-
-	public int getId() {
-		return id;
 	}
 
 	@Override

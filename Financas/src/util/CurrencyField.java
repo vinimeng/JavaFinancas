@@ -12,7 +12,7 @@ import javafx.scene.control.TextField;
 
 /**
  * Simple Currency Field for JavaFX
- * 
+ *
  * @author Gustavo
  * @version 1.0
  */
@@ -59,7 +59,7 @@ public class CurrencyField extends TextField {
 
 	/**
 	 * Get the current amount value
-	 * 
+	 *
 	 * @return Total amount
 	 */
 	public BigDecimal getAmount() {
@@ -68,7 +68,7 @@ public class CurrencyField extends TextField {
 
 	/**
 	 * Change the current amount value
-	 * 
+	 *
 	 * @param newAmount
 	 */
 	public void setAmount(BigDecimal newAmount) {
@@ -78,7 +78,7 @@ public class CurrencyField extends TextField {
 
 	/**
 	 * Set Currency format
-	 * 
+	 *
 	 * @param locale
 	 */
 	public void setCurrencyFormat(Locale locale) {

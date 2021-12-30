@@ -1,9 +1,9 @@
 package application;
 
+import java.io.InputStream;
+import java.net.URL;
+
 import form.LoginController;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,39 +13,42 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-	public Stage pStage;
+	public Stage stage;
+	private final String TITULO = "FINANÇAS PESSOAIS";
+	private final String LOGO = "/assets/logo.png";
+	private final String LOGINFXML = "/form/Login.fxml";
 
 	@Override
-	public void start(Stage primaryStage) {
-
-		pStage = primaryStage;
-		pStage.setTitle("FINANÇAS PESSOAIS");
+	public void start(Stage stageInicial) {
+		stage = stageInicial;
+		stage.setTitle(TITULO);
 
 		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/form/Login.fxml"));
+			FXMLLoader loaderFXML = new FXMLLoader();
+			URL loginFXML = getClass().getResource(LOGINFXML);
+			loaderFXML.setLocation(loginFXML);
 
-			BorderPane loginForm = (BorderPane) loader.load();
-			Scene scene = new Scene(loginForm);
+			BorderPane loginFormulario = (BorderPane) loaderFXML.load();
+			Scene scene = new Scene(loginFormulario);
 
-			pStage.setScene(scene);
-			pStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/assets/logo.png")));
-			pStage.setResizable(false);
+			stage.setScene(scene);
 
-			LoginController lc = loader.getController();
-			lc.setStage(pStage);
+			InputStream logoResource = getClass().getResourceAsStream(LOGO);
+			Image logo = new Image(logoResource);
+			stage.getIcons().add(logo);
 
-			pStage.show();
+			stage.setResizable(false);
+
+			LoginController loginController = loaderFXML.getController();
+			loginController.setStage(stage);
+
+			stage.show();
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("NÃO FOI POSSÍVEL INICIAR O PROGRAMA " + TITULO + ". MOTIVO: " + e.getMessage());
 		}
 	}
 
-	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Financas");
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
-
 		launch(args);
 	}
 }

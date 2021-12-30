@@ -11,10 +11,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQuery;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "movimentacao")
 @Cacheable(false)
 @NamedQuery(name = "Movimentacao.findAll", query = "SELECT t FROM Movimentacao t INNER JOIN t.id_usuario u INNER JOIN t.categoria c INNER JOIN t.tipo m WHERE t.deletado = 0 ORDER BY t.data")
 @NamedQuery(name = "Movimentacao.findByMonth", query = "SELECT t FROM Movimentacao t INNER JOIN t.id_usuario u INNER JOIN t.categoria c INNER JOIN t.tipo m WHERE t.deletado = 0 AND t.id_usuario = :usuario AND t.data > :datainicial AND t.data < :datafinal ORDER BY t.data")
@@ -47,6 +45,10 @@ public class Movimentacao {
 	private String descricao;
 	private boolean pago;
 	private boolean deletado;
+
+	public int getId() {
+		return id;
+	}
 
 	public Usuario getId_usuario() {
 		return id_usuario;
@@ -110,9 +112,5 @@ public class Movimentacao {
 
 	public void setDeletado(boolean deletado) {
 		this.deletado = deletado;
-	}
-
-	public int getId() {
-		return id;
 	}
 }

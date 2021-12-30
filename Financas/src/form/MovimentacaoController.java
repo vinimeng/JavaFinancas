@@ -5,9 +5,9 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Locale;
 
-import dao.CategoriaDao;
-import dao.MovimentacaoDao;
-import dao.Tipos_movimentacaoDao;
+import dao.CategoriaDAO;
+import dao.MovimentacaoDAO;
+import dao.Tipos_movimentacaoDAO;
 import entity.Categoria;
 import entity.Movimentacao;
 import entity.Tipos_movimentacao;
@@ -54,17 +54,14 @@ public class MovimentacaoController {
 	public void initialize(Usuario usuarioLogado) {
 		this.usuarioLogado = usuarioLogado;
 
-		Tipos_movimentacaoDao tmd = new Tipos_movimentacaoDao();
-		CategoriaDao cd = new CategoriaDao();
-
-		ObservableList<Tipos_movimentacao> olm = FXCollections.observableList(tmd.getAll());
+		ObservableList<Tipos_movimentacao> olm = FXCollections.observableList(Tipos_movimentacaoDAO.getAll());
 		tipo.setItems(olm);
 
 		if (!olm.isEmpty()) {
 			tipo.setValue(olm.get(0));
 		}
 
-		ObservableList<Categoria> olmp = FXCollections.observableList(cd.getAll());
+		ObservableList<Categoria> olmp = FXCollections.observableList(CategoriaDAO.getAll());
 		categoria.setItems(olmp);
 
 		if (!olmp.isEmpty()) {
@@ -79,8 +76,9 @@ public class MovimentacaoController {
 
 		valor.initialize(new Locale("pt", "BR"), BigDecimal.ZERO);
 
-		descricao.setTextFormatter(
-				new TextFormatter<String>(change -> change.getControlNewText().length() <= 255 ? change : null));
+		TextFormatter<String> max255char = new TextFormatter<>(
+				change -> change.getControlNewText().length() <= 255 ? change : null);
+		descricao.setTextFormatter(max255char);
 	}
 
 	@FXML
@@ -102,8 +100,7 @@ public class MovimentacaoController {
 		novaMovimentacao.setDescricao(descricao.getText());
 		novaMovimentacao.setDeletado(false);
 
-		MovimentacaoDao md = new MovimentacaoDao();
-		md.save(novaMovimentacao);
+		MovimentacaoDAO.save(novaMovimentacao);
 		stage.close();
 	}
 

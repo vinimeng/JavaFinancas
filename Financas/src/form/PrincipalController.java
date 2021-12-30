@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
-import dao.MovimentacaoDao;
+import dao.MovimentacaoDAO;
 import entity.Movimentacao;
 import entity.Usuario;
 import javafx.beans.property.SimpleStringProperty;
@@ -20,21 +20,20 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import util.Mes;
+import util.Utils;
 
 public class PrincipalController {
 	@FXML
@@ -115,6 +114,12 @@ public class PrincipalController {
 	private Stage stage;
 
 	private Usuario usuarioLogado;
+	
+	private final String MOVIMENTACAOTITULO = "MOVIMENTAÇÃO";
+	private final String MOVIMENTACAOFMXL = "/form/Movimentacao.fxml";
+	
+	private final String TROCARSENHATITULO = "TROCAR SENHA";
+	private final String TROCARSENHAFMXL = "/form/TrocarSenha.fxml";
 
 	public void initialize(Usuario usuarioLogado) {
 		this.usuarioLogado = usuarioLogado;
@@ -269,8 +274,6 @@ public class PrincipalController {
 	}
 
 	public void fillData(boolean fillYear, boolean selectCurrentYear) {
-		MovimentacaoDao md = new MovimentacaoDao();
-
 		if (fillYear) {
 			// PREENCHER ANOS
 			fillYear(selectCurrentYear);
@@ -284,10 +287,11 @@ public class PrincipalController {
 					lt.getMonth().length(lt.toLocalDate().isLeapYear()), 23, 59, 59));
 
 			ObservableList<Movimentacao> olm = FXCollections
-					.observableList(md.getByMonth(this.usuarioLogado, dataInicial, dataFinal));
+					.observableList(MovimentacaoDAO.getByMonth(this.usuarioLogado, dataInicial, dataFinal));
 			movimentacoes.setItems(olm);
 
-			ObservableList<Movimentacao> olmp = FXCollections.observableList(md.getLastPayed(this.usuarioLogado));
+			ObservableList<Movimentacao> olmp = FXCollections
+					.observableList(MovimentacaoDAO.getLastPayed(this.usuarioLogado));
 			ultimaMovimentacao.setItems(olmp);
 
 			NumberFormat dinheiro = NumberFormat.getCurrencyInstance();
@@ -303,8 +307,8 @@ public class PrincipalController {
 				saldoMesAtual = BigDecimal.ZERO;
 				saldoMesPrevisto = BigDecimal.ZERO;
 			} else {
-				saldoMesAtual = md.getSaldoMesAtual(usuarioLogado, dataInicial, dataFinal);
-				saldoMesPrevisto = md.getSaldoMesPrevisto(usuarioLogado, dataInicial, dataFinal);
+				saldoMesAtual = MovimentacaoDAO.getSaldoMesAtual(usuarioLogado, dataInicial, dataFinal);
+				saldoMesPrevisto = MovimentacaoDAO.getSaldoMesPrevisto(usuarioLogado, dataInicial, dataFinal);
 
 				if (saldoMesAtual == null) {
 					saldoMesAtual = BigDecimal.ZERO;
@@ -315,8 +319,8 @@ public class PrincipalController {
 				}
 			}
 
-			saldoAtual = md.getSaldoAtual(usuarioLogado);
-			saldoPrevisto = md.getSaldoPrevisto(usuarioLogado);
+			saldoAtual = MovimentacaoDAO.getSaldoAtual(usuarioLogado);
+			saldoPrevisto = MovimentacaoDAO.getSaldoPrevisto(usuarioLogado);
 
 			if (saldoAtual == null) {
 				saldoAtual = BigDecimal.ZERO;
@@ -368,23 +372,24 @@ public class PrincipalController {
 
 	private void fillYear(boolean selectCurrentYear) {
 		LocalDateTime ldt = LocalDateTime.now();
-		MovimentacaoDao md = new MovimentacaoDao();
 
 		int selectedYear = 0;
 		if (!selectCurrentYear) {
 			selectedYear = ano.getValue();
 		}
 
-		ObservableList<Integer> ola = FXCollections.observableList(md.getYears(this.usuarioLogado));
-
+		ObservableList<Integer> ola = FXCollections.observableList(MovimentacaoDAO.getYears(this.usuarioLogado));
+		
+		if (!ola.contains(ldt.getYear())) {
+			ola.add(ldt.getYear());
+		}
+		
 		ano.setItems(ola);
 
-		if (!ola.isEmpty()) {
-			if (selectCurrentYear) {
-				ano.setValue(ldt.getYear());
-			} else {
-				ano.setValue(selectedYear);
-			}
+		if (selectCurrentYear) {
+			ano.setValue(ldt.getYear());
+		} else {
+			ano.setValue(selectedYear);
 		}
 	}
 
@@ -404,17 +409,24 @@ public class PrincipalController {
 	@FXML
 	private void criarMovimentacaoBtnActionPerformed(ActionEvent event) {
 		Stage movimentacaoForm = new Stage();
-		movimentacaoForm.setTitle("MOVIMENTAÇÃO");
+		movimentacaoForm.setTitle(MOVIMENTACAOTITULO);
 
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("/form/Movimentacao.fxml"));
+		loader.setLocation(getClass().getResource(MOVIMENTACAOFMXL));
 
 		try {
 			AnchorPane ap = loader.load();
 			Scene scene = new Scene(ap);
 
 			movimentacaoForm.setScene(scene);
-			movimentacaoForm.getIcons().add(stage.getIcons().get(0));
+
+			ObservableList<Image> icons = stage.getIcons();
+
+			if (!icons.isEmpty()) {
+				Image logo = icons.get(0);
+				movimentacaoForm.getIcons().add(logo);
+			}
+
 			movimentacaoForm.setResizable(false);
 
 			MovimentacaoController mc = loader.getController();
@@ -439,47 +451,40 @@ public class PrincipalController {
 		Movimentacao movimentacaoSelecionada = movimentacoes.getSelectionModel().getSelectedItem();
 
 		if (movimentacaoSelecionada != null) {
-			Dialog<ButtonType> d = new Dialog<>();
-			ButtonType type = new ButtonType("SIM", ButtonData.YES);
-			ButtonType type2 = new ButtonType("NÃO", ButtonData.NO);
-			d.setTitle("EXCLUSÃO");
-			Stage s = (Stage) d.getDialogPane().getScene().getWindow();
-			s.getIcons().add(stage.getIcons().get(0));
-			d.setContentText("DESEJA MESMO EXCLUIR ESSA MOVIMENTAÇÃO?");
-			d.getDialogPane().getButtonTypes().add(type);
-			d.getDialogPane().getButtonTypes().add(type2);
-			d.initOwner(stage);
-			d.showAndWait().ifPresent(response -> {
-				if (response == type) {
-					MovimentacaoDao md = new MovimentacaoDao();
+			if (Utils.dialogoYESNO(stage, "EXCLUSÃO", "DESEJA MESMO EXCLUIR ESSA MOVIMENTAÇÃO?")) {
+				movimentacaoSelecionada.setDeletado(true);
 
-					movimentacaoSelecionada.setDeletado(true);
+				MovimentacaoDAO.update(movimentacaoSelecionada);
 
-					md.update(movimentacaoSelecionada);
-
-					EventHandler<ActionEvent> filter = e -> e.consume();
-					ano.addEventFilter(ActionEvent.ACTION, filter);
-					fillData(true, false);
-					ano.removeEventFilter(ActionEvent.ACTION, filter);
-				}
-			});
+				EventHandler<ActionEvent> filter = e -> e.consume();
+				ano.addEventFilter(ActionEvent.ACTION, filter);
+				fillData(true, false);
+				ano.removeEventFilter(ActionEvent.ACTION, filter);
+			}
 		}
 	}
 
 	@FXML
 	private void trocarSenhaBtnActionPerformed(ActionEvent event) {
 		Stage trocarSenhaForm = new Stage();
-		trocarSenhaForm.setTitle("TROCAR SENHA");
+		trocarSenhaForm.setTitle(TROCARSENHATITULO);
 
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("/form/TrocarSenha.fxml"));
+		loader.setLocation(getClass().getResource(TROCARSENHAFMXL));
 
 		try {
 			AnchorPane ap = loader.load();
 			Scene scene = new Scene(ap);
 
 			trocarSenhaForm.setScene(scene);
-			trocarSenhaForm.getIcons().add(stage.getIcons().get(0));
+
+			ObservableList<Image> icons = stage.getIcons();
+
+			if (!icons.isEmpty()) {
+				Image logo = icons.get(0);
+				trocarSenhaForm.getIcons().add(logo);
+			}
+
 			trocarSenhaForm.setResizable(false);
 
 			TrocarSenhaController tsc = loader.getController();

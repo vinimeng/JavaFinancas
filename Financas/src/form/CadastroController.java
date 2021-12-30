@@ -1,18 +1,17 @@
 package form;
 
-import dao.UsuarioDao;
+import dao.UsuarioDAO;
 import entity.Usuario;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import util.BCrypt;
+import util.Utils;
 
 public class CadastroController {
 
@@ -45,72 +44,54 @@ public class CadastroController {
 		String novoNome = nome.getText();
 		String senhaNova = novaSenha.getText();
 		String repetirSenhaNova = repetirNovaSenha.getText();
-		String novaCor = String.format(
-			"#%02x%02x%02x",
-			(int) (255 * corFavorita.getValue().getRed()),
-			(int) (255 * corFavorita.getValue().getGreen()),
-			(int) (255 * corFavorita.getValue().getBlue())
-		);
+
+		Color corEscolhida = corFavorita.getValue();
+		String novaCor = Utils.colorParaHEXString(corEscolhida);
+
 		String novoAnimal = animalFavorito.getText();
+
 		String erros = "";
-		UsuarioDao ud = new UsuarioDao();
-		
+
 		if (novoUsuario.length() < 1) {
 			erros += "USUÁRIO NÃO PODE ESTAR VAZIO.\n";
 		} else {
-			if (ud.get(novoUsuario) != null) {
+			if (UsuarioDAO.get(novoUsuario) != null) {
 				erros += "USUÁRIO JÁ EXISTE NA BASE DE DADOS.\n";
 			}
 		}
-		
+
 		if (novoNome.length() < 1) {
 			erros += "NOME NÃO PODE ESTAR VAZIO.\n";
 		}
-		
+
 		if (senhaNova.length() < 1) {
 			erros += "SENHA NÃO PODE ESTAR VAZIA.\n";
 		}
-		
+
 		if (!senhaNova.equals(repetirSenhaNova)) {
 			erros += "SENHA INFORMADA E A REPETIÇÃO DELA NÃO SE CORRESPONDEM.\n";
 		}
-		
+
 		if (novoAnimal.length() < 1) {
 			erros += "ANIMAL FAVORITO NÃO PODE ESTAR VAZIO.\n";
 		}
-		
+
 		if (erros.length() > 0) {
-			Dialog<String> d = new Dialog<>();
-			ButtonType type = new ButtonType("OK", ButtonData.OK_DONE);
-			d.setTitle("ERROS");
-			Stage s = (Stage) d.getDialogPane().getScene().getWindow();
-			s.getIcons().add(stage.getIcons().get(0));
-			d.setContentText(erros);
-			d.getDialogPane().getButtonTypes().add(type);
-			d.initOwner(stage);
-			d.showAndWait();
+			Utils.dialogoOK(stage, "ERRO(S)", erros);
 		} else {
 			Usuario usuarioNovo = new Usuario();
 			usuarioNovo.setUsuario(novoUsuario);
 			usuarioNovo.setNome(novoNome);
 			usuarioNovo.setSenha(BCrypt.hashpw(senhaNova, BCrypt.gensalt()));
-			usuarioNovo.setPrimeira_resposta(novaCor);
-			usuarioNovo.setSegunda_resposta(novoAnimal);
-			
-			ud.save(usuarioNovo);
-			
-			Dialog<String> d = new Dialog<>();
-			ButtonType type = new ButtonType("OK", ButtonData.OK_DONE);
-			d.setTitle("SUCESSO");
-			Stage s = (Stage) d.getDialogPane().getScene().getWindow();
-			s.getIcons().add(stage.getIcons().get(0));
-			d.setContentText("USUÁRIO CADASTRADO COM SUCESSO.");
-			d.getDialogPane().getButtonTypes().add(type);
-			d.initOwner(stage);
-			d.showAndWait();
+			usuarioNovo.setCor(novaCor);
+			usuarioNovo.setAnimal(novoAnimal);
+
+			UsuarioDAO.save(usuarioNovo);
+
+			Utils.dialogoOK(stage, "SUCESSO", "USUÁRIO CADASTRADO COM SUCESSO.");
 			stage.close();
 		}
-		
+
 	}
 
 	public void setStage(Stage stage) {

@@ -6,31 +6,10 @@ import java.util.List;
 
 import entity.Movimentacao;
 import entity.Usuario;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 
-public class MovimentacaoDao implements Dao<Movimentacao> {
+public class MovimentacaoDAO extends DAO {
 
-	private static final String PERSISTENCE_UNIT = "Financas";
-
-	public static String getPersistenceUnit() {
-		return PERSISTENCE_UNIT;
-	}
-
-	private EntityManager getEntityManager() {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory(getPersistenceUnit());
-
-		return factory.createEntityManager();
-	}
-
-	@Override
-	public Movimentacao get(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public BigDecimal getSaldoMesAtual(Usuario usuarioLogado, Timestamp dataInicial, Timestamp dataFinal) {
+	public static BigDecimal getSaldoMesAtual(Usuario usuarioLogado, Timestamp dataInicial, Timestamp dataFinal) {
 		var entityManager = getEntityManager();
 
 		try {
@@ -45,7 +24,7 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 		}
 	}
 
-	public BigDecimal getSaldoMesPrevisto(Usuario usuarioLogado, Timestamp dataInicial, Timestamp dataFinal) {
+	public static BigDecimal getSaldoMesPrevisto(Usuario usuarioLogado, Timestamp dataInicial, Timestamp dataFinal) {
 		var entityManager = getEntityManager();
 
 		try {
@@ -60,7 +39,7 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 		}
 	}
 
-	public BigDecimal getSaldoAtual(Usuario usuarioLogado) {
+	public static BigDecimal getSaldoAtual(Usuario usuarioLogado) {
 		var entityManager = getEntityManager();
 
 		try {
@@ -74,7 +53,7 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 		}
 	}
 
-	public BigDecimal getSaldoPrevisto(Usuario usuarioLogado) {
+	public static BigDecimal getSaldoPrevisto(Usuario usuarioLogado) {
 		var entityManager = getEntityManager();
 
 		try {
@@ -89,7 +68,7 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Movimentacao> getLastPayed(Usuario usuarioLogado) {
+	public static List<Movimentacao> getLastPayed(Usuario usuarioLogado) {
 		var entityManager = getEntityManager();
 
 		try {
@@ -103,8 +82,7 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
-	public List<Movimentacao> getAll() {
+	public static List<Movimentacao> getAll() {
 		var entityManager = getEntityManager();
 
 		try {
@@ -117,7 +95,7 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Movimentacao> getByMonth(Usuario usuarioLogado, Timestamp dataInicial, Timestamp dataFinal) {
+	public static List<Movimentacao> getByMonth(Usuario usuarioLogado, Timestamp dataInicial, Timestamp dataFinal) {
 		var entityManager = getEntityManager();
 
 		try {
@@ -132,7 +110,7 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Integer> getYears(Usuario idUsuario) {
+	public static List<Integer> getYears(Usuario idUsuario) {
 		var entityManager = getEntityManager();
 
 		try {
@@ -146,8 +124,7 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 		}
 	}
 
-	@Override
-	public void save(Movimentacao t) {
+	public static void save(Movimentacao t) {
 		var em = getEntityManager();
 
 		try {
@@ -164,8 +141,7 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 		}
 	}
 
-	@Override
-	public void update(Movimentacao t) {
+	public static void update(Movimentacao t) {
 		var em = getEntityManager();
 
 		try {
@@ -183,8 +159,7 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 		}
 	}
 
-	@Override
-	public void delete(Movimentacao t) {
+	public static void delete(Movimentacao t) {
 		var em = getEntityManager();
 
 		try {

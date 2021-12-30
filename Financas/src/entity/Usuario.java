@@ -6,10 +6,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.NamedQuery;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "usuario")
 @NamedQuery(name = "Usuario.findUsuario", query = "SELECT t FROM Usuario t WHERE t.usuario = :usuario")
 public class Usuario {
 
@@ -21,8 +19,12 @@ public class Usuario {
 	private String usuario;
 	private String senha;
 	private String nome;
-	private String primeira_resposta;
-	private String segunda_resposta;
+	private String cor;
+	private String animal;
+
+	public int getId() {
+		return id;
+	}
 
 	public String getUsuario() {
 		return usuario;
@@ -48,24 +50,20 @@ public class Usuario {
 		this.nome = nome;
 	}
 
-	public String getPrimeira_resposta() {
-		return primeira_resposta;
+	public String getCor() {
+		return cor;
 	}
 
-	public void setPrimeira_resposta(String primeira_resposta) {
-		this.primeira_resposta = primeira_resposta;
+	public void setCor(String cor) {
+		this.cor = cor;
 	}
 
-	public String getSegunda_resposta() {
-		return segunda_resposta;
+	public String getAnimal() {
+		return animal;
 	}
 
-	public void setSegunda_resposta(String segunda_resposta) {
-		this.segunda_resposta = segunda_resposta;
-	}
-
-	public int getId() {
-		return id;
+	public void setAnimal(String animal) {
+		this.animal = animal;
 	}
 
 	@Override
