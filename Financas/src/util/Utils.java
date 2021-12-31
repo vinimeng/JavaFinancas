@@ -48,8 +48,8 @@ public class Utils {
 		dialogo.getDialogPane().getButtonTypes().add(sim);
 		dialogo.getDialogPane().getButtonTypes().add(nao);
 		dialogo.initOwner(stage);
-		dialogo.showAndWait().ifPresent(response -> {
-			if (response == sim) {
+		dialogo.showAndWait().ifPresent(resposta -> {
+			if (resposta == sim) {
 				YESNO = true;
 			}
 		});

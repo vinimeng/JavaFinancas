@@ -1,5 +1,7 @@
 package form;
 
+import java.net.URL;
+
 import dao.UsuarioDAO;
 import entity.Usuario;
 import javafx.collections.ObservableList;
@@ -55,32 +57,33 @@ public class LoginController {
 
 		if (user != null) {
 			if (BCrypt.checkpw(senha, user.getSenha())) {
-				Stage principalForm = new Stage();
-				principalForm.setTitle(PRINCIPALTITULO);
+				Stage principalFormulario = new Stage();
+				principalFormulario.setTitle(PRINCIPALTITULO);
 
-				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(getClass().getResource(PRINCIPALFMXL));
+				FXMLLoader loaderFXML = new FXMLLoader();
+				URL principalFXML = getClass().getResource(PRINCIPALFMXL);
+				loaderFXML.setLocation(principalFXML);
 
 				try {
-					AnchorPane ap = loader.load();
-					Scene scene = new Scene(ap);
+					AnchorPane principalPane = loaderFXML.load();
+					Scene scene = new Scene(principalPane);
 
-					principalForm.setScene(scene);
+					principalFormulario.setScene(scene);
 
 					ObservableList<Image> icons = stage.getIcons();
 
 					if (!icons.isEmpty()) {
 						Image logo = icons.get(0);
-						principalForm.getIcons().add(logo);
+						principalFormulario.getIcons().add(logo);
 					}
 
-					principalForm.setResizable(false);
+					principalFormulario.setResizable(false);
 
-					PrincipalController pc = loader.getController();
-					pc.setStage(principalForm);
-					pc.initialize(user);
+					PrincipalController principalController = loaderFXML.getController();
+					principalController.setStage(principalFormulario);
+					principalController.initialize(user);
 
-					principalForm.show();
+					principalFormulario.show();
 					stage.close();
 				} catch (Exception e) {
 					Utils.dialogoOK(stage, "ERRO(S)",
@@ -96,33 +99,34 @@ public class LoginController {
 
 	@FXML
 	private void esqueciMinhaSenhaLinkActionPerformed(ActionEvent event) {
-		Stage esqueciMinhaSenhaForm = new Stage();
-		esqueciMinhaSenhaForm.setTitle(ESQUECIMINHASENHATITULO);
+		Stage esqueciMinhaSenhaFormulario = new Stage();
+		esqueciMinhaSenhaFormulario.setTitle(ESQUECIMINHASENHATITULO);
 
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource(ESQUECIMINHASENHAFMXL));
+		FXMLLoader loaderFXML = new FXMLLoader();
+		URL esqueciMinhaSenhaFXML = getClass().getResource(ESQUECIMINHASENHAFMXL);
+		loaderFXML.setLocation(esqueciMinhaSenhaFXML);
 
 		try {
-			AnchorPane ap = loader.load();
-			Scene scene = new Scene(ap);
+			AnchorPane esqueciMinhaSenhaPane = loaderFXML.load();
+			Scene scene = new Scene(esqueciMinhaSenhaPane);
 
-			esqueciMinhaSenhaForm.setScene(scene);
+			esqueciMinhaSenhaFormulario.setScene(scene);
 
 			ObservableList<Image> icons = stage.getIcons();
 
 			if (!icons.isEmpty()) {
 				Image logo = icons.get(0);
-				esqueciMinhaSenhaForm.getIcons().add(logo);
+				esqueciMinhaSenhaFormulario.getIcons().add(logo);
 			}
 
-			esqueciMinhaSenhaForm.setResizable(false);
+			esqueciMinhaSenhaFormulario.setResizable(false);
 
-			EsqueciMinhaSenhaController emsc = loader.getController();
-			emsc.setStage(esqueciMinhaSenhaForm);
+			EsqueciMinhaSenhaController esqueciMinhaSenhaController = loaderFXML.getController();
+			esqueciMinhaSenhaController.setStage(esqueciMinhaSenhaFormulario);
 
-			esqueciMinhaSenhaForm.initModality(Modality.WINDOW_MODAL);
-			esqueciMinhaSenhaForm.initOwner(stage);
-			esqueciMinhaSenhaForm.showAndWait();
+			esqueciMinhaSenhaFormulario.initModality(Modality.WINDOW_MODAL);
+			esqueciMinhaSenhaFormulario.initOwner(stage);
+			esqueciMinhaSenhaFormulario.showAndWait();
 		} catch (Exception e) {
 			Utils.dialogoOK(stage, "ERRO(S)",
 					"NÃO FOI POSSÍVEL CARREGAR A TELA DE RECUPERAÇÃO DE SENHA. MOTIVO: " + e.getMessage() + ".");
@@ -131,33 +135,34 @@ public class LoginController {
 
 	@FXML
 	private void cadastroBtnActionPerformed(ActionEvent event) {
-		Stage cadastroForm = new Stage();
-		cadastroForm.setTitle(CADASTROTITULO);
+		Stage cadastroFormulario = new Stage();
+		cadastroFormulario.setTitle(CADASTROTITULO);
 
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource(CADASTROFMXL));
+		FXMLLoader loaderFXML = new FXMLLoader();
+		URL cadastroFXML = getClass().getResource(CADASTROFMXL);
+		loaderFXML.setLocation(cadastroFXML);
 
 		try {
-			AnchorPane ap = loader.load();
-			Scene scene = new Scene(ap);
+			AnchorPane cadastroPane = loaderFXML.load();
+			Scene scene = new Scene(cadastroPane);
 
-			cadastroForm.setScene(scene);
+			cadastroFormulario.setScene(scene);
 
 			ObservableList<Image> icons = stage.getIcons();
 
 			if (!icons.isEmpty()) {
 				Image logo = icons.get(0);
-				cadastroForm.getIcons().add(logo);
+				cadastroFormulario.getIcons().add(logo);
 			}
 
-			cadastroForm.setResizable(false);
+			cadastroFormulario.setResizable(false);
 
-			CadastroController emsc = loader.getController();
-			emsc.setStage(cadastroForm);
+			CadastroController cadastroController = loaderFXML.getController();
+			cadastroController.setStage(cadastroFormulario);
 
-			cadastroForm.initModality(Modality.WINDOW_MODAL);
-			cadastroForm.initOwner(stage);
-			cadastroForm.showAndWait();
+			cadastroFormulario.initModality(Modality.WINDOW_MODAL);
+			cadastroFormulario.initOwner(stage);
+			cadastroFormulario.showAndWait();
 		} catch (Exception e) {
 			Utils.dialogoOK(stage, "ERRO(S)",
 					"NÃO FOI POSSÍVEL CARREGAR A TELA DE CADASTRO. MOTIVO: " + e.getMessage() + ".");

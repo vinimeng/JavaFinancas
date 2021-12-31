@@ -110,10 +110,12 @@ public class EsqueciMinhaSenhaController {
 		} else {
 			usuarioEsquecido.setSenha(BCrypt.hashpw(senhaNova, BCrypt.gensalt()));
 
-			UsuarioDAO.update(usuarioEsquecido);
-
-			Utils.dialogoOK(stage, "SUCESSO", "SENHA TROCADA COM SUCESSO.");
-			stage.close();
+			if (UsuarioDAO.update(usuarioEsquecido)) {
+				Utils.dialogoOK(stage, "SUCESSO", "SENHA TROCADA COM SUCESSO.");
+				stage.close();
+			} else {
+				Utils.dialogoOK(stage, "ERRO(S)", "ERRO AO TROCAR SENHA.");
+			}
 		}
 	}
 

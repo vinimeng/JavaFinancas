@@ -56,10 +56,12 @@ public class TrocarSenhaController {
 		} else {
 			usuarioLogado.setSenha(BCrypt.hashpw(senhaNova, BCrypt.gensalt()));
 
-			UsuarioDAO.update(usuarioLogado);
-
-			Utils.dialogoOK(stage, "SUCESSO", "SENHA TROCADA COM SUCESSO.");
-			stage.close();
+			if (UsuarioDAO.update(usuarioLogado)) {
+				Utils.dialogoOK(stage, "SUCESSO", "SENHA TROCADA COM SUCESSO.");
+				stage.close();
+			} else {
+				Utils.dialogoOK(stage, "ERRO(S)", "ERRO AO TROCAR SENHA.");
+			}
 		}
 	}
 

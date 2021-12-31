@@ -86,10 +86,12 @@ public class CadastroController {
 			usuarioNovo.setCor(novaCor);
 			usuarioNovo.setAnimal(novoAnimal);
 
-			UsuarioDAO.save(usuarioNovo);
-
-			Utils.dialogoOK(stage, "SUCESSO", "USUÁRIO CADASTRADO COM SUCESSO.");
-			stage.close();
+			if (UsuarioDAO.save(usuarioNovo)) {
+				Utils.dialogoOK(stage, "SUCESSO", "USUÁRIO CADASTRADO COM SUCESSO.");
+				stage.close();
+			} else {
+				Utils.dialogoOK(stage, "ERRO(S)", "ERRO AO CADASTRAR NOVO USUÁRIO NA BASE DE DADOS.");
+			}
 		}
 
 	}

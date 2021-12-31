@@ -23,6 +23,7 @@ import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 import jfxtras.scene.control.LocalDateTimePicker;
 import util.CurrencyField;
+import util.Utils;
 
 public class MovimentacaoController {
 
@@ -45,13 +46,15 @@ public class MovimentacaoController {
 	private TextArea descricao;
 
 	@FXML
-	private Button criarMovimentacaoBtn;
+	private Button criarEditarMovimentacaoBtn;
 
 	private Stage stage;
 
 	private Usuario usuarioLogado;
+	
+	private Movimentacao movimentacao;
 
-	public void initialize(Usuario usuarioLogado) {
+	public void initialize(Usuario usuarioLogado, Movimentacao movimentacao) {
 		this.usuarioLogado = usuarioLogado;
 
 		ObservableList<Tipos_movimentacao> olm = FXCollections.observableList(Tipos_movimentacaoDAO.getAll());
@@ -79,29 +82,71 @@ public class MovimentacaoController {
 		TextFormatter<String> max255char = new TextFormatter<>(
 				change -> change.getControlNewText().length() <= 255 ? change : null);
 		descricao.setTextFormatter(max255char);
+		
+		if (movimentacao != null) {
+			this.movimentacao = movimentacao;
+			
+			tipo.setValue(movimentacao.getTipo());
+			categoria.setValue(movimentacao.getCategoria());
+			data.setLocalDateTime(movimentacao.getData().toLocalDateTime());
+			
+			String pagoOriginal = movimentacao.isPago() ? "CONFIRMADO" : "EM ABERTO";
+			pago.setValue(pagoOriginal);
+			
+			valor.setAmount(movimentacao.getValor());
+			descricao.setText(movimentacao.getDescricao());
+			
+			criarEditarMovimentacaoBtn.setText("EDITAR MOVIMENTAÇÃO");
+			
+			// AJUSTAR POSIÇÃO DO BOTÃO
+			double layoutX = criarEditarMovimentacaoBtn.getTranslateX();
+			criarEditarMovimentacaoBtn.setTranslateX(layoutX - 6);
+		} else {
+			this.movimentacao = null;
+		}
 	}
 
 	@FXML
-	private void criarMovimentacaoBtnActionPerformed(ActionEvent event) {
-		Movimentacao novaMovimentacao = new Movimentacao();
-
-		novaMovimentacao.setId_usuario(usuarioLogado);
-		novaMovimentacao.setTipo(tipo.getValue());
-		novaMovimentacao.setCategoria(categoria.getValue());
-		novaMovimentacao.setData(Timestamp.valueOf(data.getLocalDateTime()));
-
-		if (pago.getValue().equals("CONFIRMADO")) {
-			novaMovimentacao.setPago(true);
+	private void criarEditarMovimentacaoBtnActionPerformed(ActionEvent event) {
+		String acao;
+		Movimentacao criarEditarMovimentacao;
+		
+		if (this.movimentacao == null) {
+			acao = "CRIAR";
+			criarEditarMovimentacao = new Movimentacao();
 		} else {
-			novaMovimentacao.setPago(false);
+			acao = "EDITAR";
+			criarEditarMovimentacao = this.movimentacao;
 		}
 
-		novaMovimentacao.setValor(valor.getAmount());
-		novaMovimentacao.setDescricao(descricao.getText());
-		novaMovimentacao.setDeletado(false);
+		criarEditarMovimentacao.setId_usuario(usuarioLogado);
+		criarEditarMovimentacao.setTipo(tipo.getValue());
+		criarEditarMovimentacao.setCategoria(categoria.getValue());
+		criarEditarMovimentacao.setData(Timestamp.valueOf(data.getLocalDateTime()));
 
-		MovimentacaoDAO.save(novaMovimentacao);
-		stage.close();
+		if (pago.getValue().equals("CONFIRMADO")) {
+			criarEditarMovimentacao.setPago(true);
+		} else {
+			criarEditarMovimentacao.setPago(false);
+		}
+
+		criarEditarMovimentacao.setValor(valor.getAmount());
+		criarEditarMovimentacao.setDescricao(descricao.getText());
+		criarEditarMovimentacao.setDeletado(false);
+
+		boolean sucesso;
+		
+		if (this.movimentacao == null) {
+			sucesso = MovimentacaoDAO.save(criarEditarMovimentacao);
+		} else {
+			sucesso = MovimentacaoDAO.update(criarEditarMovimentacao);
+		}
+		
+		if (sucesso) {
+			stage.close();
+		} else {
+			Utils.dialogoOK(stage, "ERRO(S)", "ERRO AO " + acao + " MOVIMENTAÇÃO.");
+		}
 	}
 
 	public void setStage(Stage stage) {

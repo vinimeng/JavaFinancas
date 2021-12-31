@@ -17,7 +17,6 @@ public class MovimentacaoDAO extends DAO {
 					.setParameter("usuario", usuarioLogado).setParameter("datainicial", dataInicial)
 					.setParameter("datafinal", dataFinal).getSingleResult();
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		} finally {
 			entityManager.close();
@@ -32,7 +31,6 @@ public class MovimentacaoDAO extends DAO {
 					.setParameter("usuario", usuarioLogado).setParameter("datainicial", dataInicial)
 					.setParameter("datafinal", dataFinal).getSingleResult();
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		} finally {
 			entityManager.close();
@@ -46,7 +44,6 @@ public class MovimentacaoDAO extends DAO {
 			return (BigDecimal) entityManager.createNamedQuery("Movimentacao.findSaldoAtual")
 					.setParameter("usuario", usuarioLogado).getSingleResult();
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		} finally {
 			entityManager.close();
@@ -60,7 +57,6 @@ public class MovimentacaoDAO extends DAO {
 			return (BigDecimal) entityManager.createNamedQuery("Movimentacao.findSaldoPrevisto")
 					.setParameter("usuario", usuarioLogado).getSingleResult();
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		} finally {
 			entityManager.close();
@@ -102,7 +98,6 @@ public class MovimentacaoDAO extends DAO {
 			return entityManager.createNamedQuery("Movimentacao.findByMonth").setParameter("usuario", usuarioLogado)
 					.setParameter("datainicial", dataInicial).setParameter("datafinal", dataFinal).getResultList();
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		} finally {
 			entityManager.close();
@@ -117,14 +112,13 @@ public class MovimentacaoDAO extends DAO {
 			return entityManager.createNamedQuery("Movimentacao.findYears").setParameter("usuario", idUsuario)
 					.getResultList();
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		} finally {
 			entityManager.close();
 		}
 	}
 
-	public static void save(Movimentacao t) {
+	public static boolean save(Movimentacao t) {
 		var em = getEntityManager();
 
 		try {
@@ -134,14 +128,16 @@ public class MovimentacaoDAO extends DAO {
 
 			em.getTransaction().commit();
 		} catch (Exception e) {
-			e.printStackTrace();
 			em.getTransaction().rollback();
+			return false;
 		} finally {
 			em.close();
 		}
+
+		return true;
 	}
 
-	public static void update(Movimentacao t) {
+	public static boolean update(Movimentacao t) {
 		var em = getEntityManager();
 
 		try {
@@ -152,14 +148,16 @@ public class MovimentacaoDAO extends DAO {
 			em.getTransaction().commit();
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			em.getTransaction().rollback();
+			return false;
 		} finally {
 			em.close();
 		}
+
+		return true;
 	}
 
-	public static void delete(Movimentacao t) {
+	public static boolean delete(Movimentacao t) {
 		var em = getEntityManager();
 
 		try {
@@ -174,11 +172,13 @@ public class MovimentacaoDAO extends DAO {
 			em.getTransaction().commit();
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			em.getTransaction().rollback();
+			return false;
 		} finally {
 			em.close();
 		}
+
+		return true;
 	}
 
 }

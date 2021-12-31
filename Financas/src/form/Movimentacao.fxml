@@ -48,7 +48,7 @@
                </font>
             </Label>
             <TextArea fx:id="descricao" layoutX="13.0" layoutY="437.0" prefHeight="110.0" prefWidth="289.0" wrapText="true" />
-            <Button fx:id="criarMovimentacaoBtn" layoutX="155.0" layoutY="561.0" mnemonicParsing="false" onAction="#criarMovimentacaoBtnActionPerformed" text="CRIAR MOVIMENTAÇÃO" />
+            <Button fx:id="criarEditarMovimentacaoBtn" layoutX="155.0" layoutY="561.0" mnemonicParsing="false" onAction="#criarEditarMovimentacaoBtnActionPerformed" text="CRIAR MOVIMENTAÇÃO" />
             <CurrencyField fx:id="valor" layoutX="128.0" layoutY="340.0" prefHeight="25.0" prefWidth="174.0" />
             <LocalDateTimePicker fx:id="data" layoutX="68.0" layoutY="87.0" />
             <Label layoutX="13.0" layoutY="295.0" text="HORA:">

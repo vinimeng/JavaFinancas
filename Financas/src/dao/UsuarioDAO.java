@@ -19,7 +19,7 @@ public class UsuarioDAO extends DAO {
 		}
 	}
 
-	public static void save(Usuario t) {
+	public static boolean save(Usuario t) {
 		var em = getEntityManager();
 
 		try {
@@ -29,14 +29,16 @@ public class UsuarioDAO extends DAO {
 
 			em.getTransaction().commit();
 		} catch (Exception e) {
-			e.printStackTrace();
 			em.getTransaction().rollback();
+			return false;
 		} finally {
 			em.close();
 		}
+
+		return true;
 	}
 
-	public static void update(Usuario t) {
+	public static boolean update(Usuario t) {
 		var em = getEntityManager();
 
 		try {
@@ -47,14 +49,16 @@ public class UsuarioDAO extends DAO {
 			em.getTransaction().commit();
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			em.getTransaction().rollback();
+			return false;
 		} finally {
 			em.close();
 		}
+
+		return true;
 	}
 
-	public static void delete(Usuario t) {
+	public static boolean delete(Usuario t) {
 		var em = getEntityManager();
 
 		try {
@@ -69,10 +73,12 @@ public class UsuarioDAO extends DAO {
 			em.getTransaction().commit();
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			em.getTransaction().rollback();
+			return false;
 		} finally {
 			em.close();
 		}
+
+		return true;
 	}
 }
