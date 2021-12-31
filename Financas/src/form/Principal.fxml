@@ -158,7 +158,7 @@
                   <Font size="24.0" />
                </font>
                <tooltip>
-                  <Tooltip text="CRIAR MOVIMENTAÇÃO">
+                  <Tooltip text="EDITAR MOVIMENTAÇÃO">
                      <font>
                         <Font size="16.0" />
                      </font>
