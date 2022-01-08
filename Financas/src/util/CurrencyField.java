@@ -95,11 +95,11 @@ public class CurrencyField extends TextField {
 			}
 
 			StringBuilder builder = new StringBuilder(plainText);
-			builder.insert(plainText.length() - 2, ".");
+			builder.insert(plainText.length() - 2, "."); //a11a //11 //011 //0.11
 
 			BigDecimal newValue = new BigDecimal(builder.toString());
 			amount = newValue;
-			setText(format.format(newValue));
+			setText(format.format(newValue));//R$ 0,11
 		}
 	}
 

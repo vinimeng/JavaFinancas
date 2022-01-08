@@ -67,10 +67,8 @@ public class EsqueciMinhaSenhaController {
 		} else {
 			erros = "";
 
-			if (corEsqueceu.equals(usuarioEsquecido.getCor())) {
-				if (!animalEsqueceu.equals(usuarioEsquecido.getAnimal())) {
-					erros += "RESPOSTAS NÃO CORRESPONDEM AS CADASTRADAS PELO USUÁRIO.";
-				}
+			if (!corEsqueceu.equals(usuarioEsquecido.getCor()) || !animalEsqueceu.equals(usuarioEsquecido.getAnimal())) {
+				erros += "RESPOSTAS NÃO CORRESPONDEM AS CADASTRADAS PELO USUÁRIO.";
 			}
 
 			if (erros.length() > 0) {
